@@ -55,12 +55,19 @@ class _CitiesPageState extends State<CitiesPage> {
       child: Scaffold(
         appBar: AppBar(title: const Text('Города'), automaticallyImplyLeading: false),
         body: Observer(builder: (context) {
-          return ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            itemCount: _citiesState.cities.length,
-            separatorBuilder: (c, i) => const SizedBox(height: 10),
-            itemBuilder: (c, i) => _getCity(_citiesState.cities[i]),
-          );
+          return _citiesState.isLoading
+              ? const Center(child: SizedBox(width: 50, height: 50, child: CircularProgressIndicator()))
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    _citiesState.getCities();
+                  },
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    itemCount: _citiesState.cities.length,
+                    separatorBuilder: (c, i) => const SizedBox(height: 10),
+                    itemBuilder: (c, i) => _getCity(_citiesState.cities[i]),
+                  ),
+                );
         }),
       ),
     );

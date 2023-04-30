@@ -54,7 +54,7 @@ class _GrPageState extends State<GrPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('gr')),
+      appBar: AppBar(title: Text('${oo['fuel'].type} ${oo['fuel'].name}, ${oo['city'].name}')),
       body: Column(
         children: [
           const Padding(

@@ -23,7 +23,7 @@ class _CityFuelPageState extends State<CityFuelPage> {
   late DateTime end;
   late DateTime start;
 
-  City ?city;
+  City? city;
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _CityFuelPageState extends State<CityFuelPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('${fuel.type}, ${fuel.name}', style: const TextStyle(fontSize: 25, color: Colors.black87)),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text('${priceFormat.format(fuel.currentPriceInPenny / 100)} ₽', style: const TextStyle(fontSize: 20, color: Colors.black45)),
                   ],
                 ),
@@ -71,8 +71,7 @@ class _CityFuelPageState extends State<CityFuelPage> {
   Widget build(BuildContext context) {
     city = ModalRoute.of(context)?.settings.arguments as City;
 
-    if(city == null)
-      return Text('err');
+    if (city == null) return const Text('err');
 
     _fuelState.getFuelInCity(city!.id, Period(start, end));
 
@@ -127,12 +126,20 @@ class _CityFuelPageState extends State<CityFuelPage> {
           ),
           Expanded(
             child: Observer(builder: (context) {
-              return ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                itemCount: _fuelState.fuels.length,
-                separatorBuilder: (c, i) => const SizedBox(height: 10),
-                itemBuilder: (c, i) => _getFuel(_fuelState.fuels[i]),
-              );
+              return _fuelState.isLoading
+                  ? const Center(child: SizedBox(width: 50, height: 50, child: CircularProgressIndicator()))
+                  : (_fuelState.fuels.isEmpty
+                      ? const Center(child: Text('Данных нет'))
+                      : RefreshIndicator(
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                            itemCount: _fuelState.fuels.length,
+                            separatorBuilder: (c, i) => const SizedBox(height: 10),
+                            itemBuilder: (c, i) => _getFuel(_fuelState.fuels[i]),
+                          ),
+                          onRefresh: () async {
+                            _fuelState.getFuelInCity(city!.id, Period(start, end));
+                          }));
             }),
           ),
         ],
