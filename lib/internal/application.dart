@@ -19,7 +19,7 @@ class _ApplicationState extends State<Application> {
         primaryColor: Colors.amber,
       ),
       locale: const Locale('ru'),
-      initialRoute: '/',
+      initialRoute: '/splash',
       routes: {
         '/': (context) => const CitiesPage(),
         '/splash': (context) => const SplashPage(),
