@@ -5,13 +5,19 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image.asset('assets/logo.png', width: 300),
-        const Text('Солнечный круг, небо вокруг!', style: TextStyle(fontSize: 30)),
-      ],
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 100),
+          Image.asset('assets/logo.png', width: 250),
+          const SizedBox(height: 20),
+          const Text('Солнечный круг, небо вокруг!', style: TextStyle(fontSize: 30), textAlign: TextAlign.center),
+          const SizedBox(height: 20),
+          const Text('BestHack 2023', style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
+        ],
+      ),),
     );
   }
 }
